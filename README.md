@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-4000ff.svg?style=flat-square)](https://github.com/pfmcodes/askiimon/LICENSE)
 [![Downloads](https://img.shields.io/npm/dw/askiimon?style=flat-square)](https://npmjs.com/askiimon)
 [![Version](https://img.shields.io/npm/v/askiimon?style=flat-square)](https://npmjs.com/askiimon)
-[![Documentation](./docs.svg)](https://pfmcodes.onrender.com/askiimon/docs/)
+[![Documentation](https://raw.githubusercontent.com/PFMCODES/askiimon/refs/heads/main/docs.svg)](https://pfmcodes.onrender.com/askiimon/docs/)
 
 A tiny terminal personality that reacts, talks, and lives inside your app.
 
