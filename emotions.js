@@ -1,11 +1,10 @@
 import chalk from "chalk";
-import { showWarnings } from "./brain.js";
-import { warn, info, err } from "./util.js";
+import { warn, info, showWarnings} from "./util.js";
 
 const moods = {
     ADMIRATION: "*_*",
     AIMING: "^_+",
-    ANNOYED_0: `>"<`,
+    ANNOYED: `>"<`,
     ANGRY: ">:(",
     BORED_0: "-_-",
     BORED_1: ":/",
@@ -14,13 +13,14 @@ const moods = {
     BORED_4: "=_=",
     BORED_5: "-0-",
     BRIBE: ":-$",
-    CHILLING_0: "U_U",
-    CHILLING_1: "^.^", 
-    CHILLING_2: "OwO",
-    CHILLING_3: "UwU",
+    CUTE_0: "^_____^",
+    CUTE_1: "U_U",
+    CUTE_2: "^.^", 
+    CUTE_3: "OwO",
+    CUTE_4: "UwU",
     CRYING_0: "T_T",
     CRYING_1: ";_;",
-    CUTE_0: "^_____^",
+    DEAD_0: "X_X",
     DEAD_1: "X X",
     DEAD_2: "X.X",
     DEAD_3: "X>X",
@@ -46,7 +46,7 @@ const moods = {
     HAPPY_11: "8-)",
     HEART: "<3",
     IDLE: "^_^",
-    IDLE_2: "^\x22^",
+    IDLE2: "^\x22^",
     IN_AWE: ":-O",
     KISS: "^3^",
     MOUTH_SHUT: ":-x",
@@ -59,7 +59,7 @@ const moods = {
     SHOCKED_0: "O.O",
     SHOCKED_1: "O_O",
     SHOCKED_2: ":O",
-    SHCOKED_3: ":O)",
+    SHOCKED_3: ":O)",
     SMUG: "¬_¬",
     TEASING_0: ":-P",
     TEASING_1: "=P",
@@ -67,7 +67,7 @@ const moods = {
     WINK_0: ";-)",
     WINK_1: ";D",
     WINK_2: "^_-",
-    ZONING_OUT_0: "-.-",
+    ZONING_OUT: "-.-",
 }
 
 export let currentMood = moods["IDLE"]
@@ -76,8 +76,8 @@ export function setMood(mood) {
     const face = moods[mood];
 
     if (!face) {
-        if (showWarnings) {
-            warn(chalk.whiteBright(`"${chalk.cyanBright(mood)}" does not exist. Falling back to ${chalk.yellowBright("IDLE")}.`));
+        if (showWarnings()) {
+            warn(chalk.whiteBright(`"${chalk.cyanBright(mood)}" does not exist. Falling back to ${chalk.yellowBright("IDLE")}.`), "valid-moods");
             info(`use learnMood("${mood}", "...") to register it`);
         }
 

@@ -1,9 +1,22 @@
-import brain from "brain.js";
+import brain from "./brain.js";
+import { err, setErr } from "./util.js";
 
-export function birth(starting_mood, starting_message, birth_place) {
-    brain.init(birth_place || "nodejs");
-    brain.setMood(starting_mood || "idle");
-    brain.setMessage(starting_message || "");
+function birth(parameter) {
+    if (typeof parameter !== "object" && showWarnings()) {
+        setErr(true);
+        err(`init() expects a config object, but received a ${typeof parameter}.`, "init");''
+        process.exit(1);
+    }
+    if (Object.keys(parameter).length === 0 && showWarnings()) {
+        setErr(true);
+        err(`init() expects a config object, but object does contain necessary data.`, "init");
+        process.exit(1);
+    }
+    const mood = parameter.mood;
+    const message = parameter.message;
+    brain.init();
+    brain.setMessage(message);
+    brain.setMood(mood);
 
     return brain;
 }
@@ -15,6 +28,7 @@ const askiimon = {
     birth,
     create,
     init,
+    setShowWarnings
 };
 
 export { birth, init, create };
