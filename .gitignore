@@ -6,3 +6,5 @@ node_modules
 documentation.md
 .npmignore
 documentation.md
+tasks.txt
+test.js

@@ -1,49 +1,98 @@
-import { currentMood, setMood, subscribe } from "./emotions.js";
+import { currentMood, learnMood, setMood, subscribe, moods, notify } from "./emotions.js";
 import { setMessage } from "./mouth.js";
 import chalk from "chalk";
-import { err, Error, setErr, showWarnings } from "./util.js";
+import { err, Error, setErr, showWarnings, warn, info, Intervals, Interval, setIntervals } from "./util.js";
 
 let mood = "";
 let message = "";
+let endMessage = `ASKIIMON is ${chalk.red.underline('Dead')}`
 // cleaning up
 function cleanup() {
-    process.stdout.write("\r");       // go to start
-    process.stdout.clearLine(0);      // clear line
+    process.stdout.write("\r");
+    process.stdout.clearLine(0);
     mood = "";
-    if (!Error()) brain.setMessage(`ASKIIMON is ${chalk.red.underline('Dead')}`);
+    if (!Error()) {
+        process.stdout.write(`\r${endMessage}\n`);
+    }
 }
 // initialises the brain of The ASKIIMON
-function init() {
+function init(message, moodI) {
     mood = currentMood;
-    render();
+
+    render(); // <- YOU REMOVED THIS
 
     subscribe((newMood) => {
         mood = newMood;
         render();
     });
 
-    // 🔥 handle exit
     process.on("exit", cleanup);
+
     process.on("SIGINT", () => {
         cleanup();
         process.exit();
     });
+
     process.on("SIGTERM", cleanup);
 }
 
-    function brainSetMessage(str) {
-        if (str === "" || str === null || str === undefined) return;
-        if (typeof str !== "string" && showWarnings()) {
-            setErr(true);
-            err(`setMessage received ${chalk.redBright(typeof str)} expected ${chalk.greenBright("string")}`);
-            process.exit(1);
-        }
-        message = setMessage(str);
-        render();
+function brainSetMessage(str) {
+    if (str === "" || str === null || str === undefined) return;
+    if (typeof str !== "string" && showWarnings()) {
+        setErr(true);
+        err(`setMessage received ${chalk.redBright(typeof str)} expected ${chalk.greenBright("string")}`, "setMessage");
+        process.exit(1);
     }
+    message = setMessage(str);
+    render();
+    if (Intervals()) {
+        setTimeout(() => {}, Interval());
+    }
+}
 
 function brainSetMood(mood) {
-    setMood(evaluate(mood));
+    const evaluated = evaluate(mood);
+
+    if (!evaluated) {
+        err(`unknown mood "${mood}"`, "setMood");
+        process.exit(1);
+    }
+    setMood(evaluated);
+    if (Intervals()) {
+        setTimeout(() => {}, Interval());
+    }
+}
+
+function brainLearnMood(moodName, mood) {
+
+    if (evaluation[moodName]) {
+        warn(`mood "${moodName}" already exists`, "learnMood");
+        process.exit(1);
+    }
+
+    if (!moodName || !mood) {
+        err("learnMood received parameters either empty or null", "learnMood");
+        process.exit(1);
+    }
+
+    moodName = moodName.toLowerCase();
+
+    const moodKey =
+        moodName
+            .toUpperCase()
+            .replaceAll(" ", "_");
+
+    learnMood(moodKey, mood);
+
+    evaluation[moodName.toLowerCase()] = moodKey;
+}
+
+function addEndMessage(msg) {
+    if (!msg || msg ==="") {
+        err("addEndMessage: msg paramter should not be empty or null", "addEndMessage");
+        process.exit(1);
+    }
+    endMessage = msg;
 }
 
 function evaluate(mood) {
@@ -51,7 +100,9 @@ function evaluate(mood) {
 }
 
 function render() {
-    process.stdout.write(`\r${mood}${mood === "" ? "" : " "}${message}`);
+    process.stdout.write(
+        `\r${mood}${mood === "" ? "" : " "}${message}`
+    );
 }
 
 // takes a mood like, "cartoon happy" and returns "HAPPY_3"(in the format emotions.js uses)
@@ -125,7 +176,7 @@ const evaluation = {
 }
 
 const brain = {
-    init, setMood: brainSetMood, setMessage: brainSetMessage
+    init, setMood: brainSetMood, setMessage: brainSetMessage, learnMood: brainLearnMood, setIntervals
 }
 
 export default brain;

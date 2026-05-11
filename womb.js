@@ -1,5 +1,5 @@
 import brain from "./brain.js";
-import { err, setErr } from "./util.js";
+import { err, setErr, setShowWarnings, showWarnings } from "./util.js";
 
 function birth(parameter) {
     if (typeof parameter !== "object" && showWarnings()) {
@@ -14,9 +14,7 @@ function birth(parameter) {
     }
     const mood = parameter.mood;
     const message = parameter.message;
-    brain.init();
-    brain.setMessage(message);
-    brain.setMood(mood);
+    brain.init(message, mood);
 
     return brain;
 }

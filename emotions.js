@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { warn, info, showWarnings} from "./util.js";
 
-const moods = {
+export const moods = {
     ADMIRATION: "*_*",
     AIMING: "^_+",
     ANNOYED: `>"<`,
@@ -72,23 +72,31 @@ const moods = {
 
 export let currentMood = moods["IDLE"]
 
-export function setMood(mood) {
-    const face = moods[mood];
+    export function setMood(mood) {
+        const face = moods[mood];
 
-    if (!face) {
-        if (showWarnings()) {
-            warn(chalk.whiteBright(`"${chalk.cyanBright(mood)}" does not exist. Falling back to ${chalk.yellowBright("IDLE")}.`), "valid-moods");
-            info(`use learnMood("${mood}", "...") to register it`);
+        if (!face) {
+            if (showWarnings()) {
+                warn(chalk.whiteBright(`"${chalk.cyanBright(mood)}" does not exist. Falling back to ${chalk.yellowBright("IDLE")}.`), "valid-moods");
+                info(`use learnMood("${mood}", "...") to register it`);
+            }
+
+            currentMood = moods.IDLE;
+            notify();
+            return currentMood;
         }
 
-        currentMood = moods.IDLE;
+        currentMood = face;
         notify();
         return currentMood;
     }
 
-    currentMood = face;
-    notify();
-    return currentMood;
+export function learnMood(moodName, mood) {
+    if (moods[moodName]) {
+        warn(`mood "${moodName}" already exists`, "learnMood");
+        return;
+    }
+    moods[moodName] = mood;
 }
 
 const listeners = [];
@@ -97,6 +105,6 @@ export function subscribe(fn) {
     listeners.push(fn);
 }
 
-function notify() {
+export function notify() {
     listeners.forEach(fn => fn(currentMood));
 }

@@ -1,10 +1,4 @@
-<svg width="750" height="189" viewBox="0 0 750 189" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.776 91.016L32.768 59.4H42.752L63.744 91.016H52.48L37.76 67.592L23.04 91.016H11.776Z" fill="#9A82F2"/>
-<path d="M131.68 150.616H65.12V141.4H131.68V150.616Z" fill="#5FC281"/>
-<path d="M185.688 98.5625H135.688V90.5H185.688V98.5625Z" fill="#F16D8E"/>
-<path d="M261.488 90.2H279.28V135H274.16V114.52H256.24V135H251.12V100.888L261.488 90.2ZM256.24 102.104V109.912H274.16V94.808H263.344L256.24 102.104ZM294.551 90.2H312.599L315.991 95.448L312.727 98.648L310.103 94.808H296.471L294.551 96.856V105.112L297.111 108.824H313.175L317.719 115.608V130.328L313.239 135H292.247L289.431 131.032L292.631 127.64L294.615 130.392H311.063L312.599 129.048V116.184L310.679 113.432H294.551L289.431 105.816V95.512L294.551 90.2ZM351.614 90.2H358.334L340.798 107.992L359.294 135H353.79L337.534 111.384L329.726 119.576V135H324.606V90.2H329.726V112.92L351.614 90.2ZM366.181 90.2H394.469V94.872H382.885V130.328H394.469V135H366.181V130.328H377.765V94.872H366.181V90.2ZM404.556 90.2H432.844V94.872H421.26V130.328H432.844V135H404.556V130.328H416.14V94.872H404.556V90.2ZM442.931 90.2H448.051V91.992L454.771 101.912L466.099 90.2H471.283V135H466.099V96.92L459.763 103.576V109.4H454.195V109.272L448.051 100.184V135H442.931V90.2ZM486.426 90.2H504.602L509.658 97.88V129.688L504.602 135H486.426L481.242 127.32V95.512L486.426 90.2ZM486.362 126.68L488.858 130.392H502.554L504.474 128.28V98.52L502.042 94.808H488.346L486.362 96.92V126.68ZM542.849 90.2H548.033V135H542.849V117.912L527.297 94.808H524.801V135H519.681V90.2H529.729L542.849 109.592V90.2Z" fill="currentColor"/>
-</svg>
-
+<img src="https://pfmcodes.onrender.com/askiimon/logo%20with%20text.svg">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-4000ff.svg?style=flat-square)](https://github.com/pfmcodes/askiimon/LICENSE)
 [![Downloads](https://img.shields.io/npm/dw/askiimon?style=flat-square)](https://npmjs.com/askiimon)
@@ -16,6 +10,7 @@ A tiny terminal personality that reacts, talks, and lives inside your app.
 ASKIIMON is a lightweight JavaScript library that gives your CLI or app a living ASCII companion. It shows emotions, reacts to events, and displays messages in real-time.
 
 ---
+
 
 ## Features
 
@@ -39,6 +34,48 @@ ASKIIMON is a lightweight JavaScript library that gives your CLI or app a living
 
 * Helpful errors
   Clean, styled error and warning system with quick access to help resources.
+
+* Customize Intervals <img width="35" height="15" src="https://pfmcodes.onrender.com/askiimon/new-badge.gif"> <br>
+
+  1.0.0:
+  ```javascript
+  import askiimon from "askiimon";
+
+  const mon = askiimon.init({
+    mood: "idle",
+    message: "",
+  });
+
+  let timeOut = setTimeout(() => {
+    mon.setMood("happy");
+    mon.setMessage("i'm happy");
+    let innerTimeout = setTimeout(() => {
+      clearTimeout(timeOut);
+      clear(innerTimeout);
+    }, 2000);
+  }, 3000);
+  ```
+
+  2.0.0(and onwards):
+  ```javascript
+  import askiimon from "askiimon";
+
+  const mon = askiimon.init({
+    mood: "idle",
+    message: "",
+  });
+
+  mon.setMood("happy");
+  mon.setMessage("i'm happy");
+
+  ```
+
+  This is because askiimon has added internal intervals, so user code doesn't look like setTimeout and setInterval spaghetti, you modify the timings and if the intervals should be there suing:
+  ```javascript
+
+  mon.setIntervals(true, 1000)
+  //             boolean custom interval after setMood and setMessage(number)
+  ```
 
 ---
 
