@@ -132,11 +132,10 @@ const evaluation = {
     "mouth shut": "MOUTH_SHUT",
     "not funny": "BORED_2",
     dead: "DEAD_0",
-    dead_1: "DEAD_1",
-    dead_2: "DEAD_2",
-    dead_3: "DEAD_3",
-    dead_4: "DEAD_4",
-    dead_5: "DEAD_5",
+    "dead 2": "DEAD_1",
+    "dead 3": "DEAD_2",
+    "dead 4": "DEAD_3",
+    "dead 5": "DEAD_4",
     "really?": "BORED_2",
     crying: "CRYING_0",
     "huh?": "SHOCKED_1",
@@ -176,7 +175,12 @@ const evaluation = {
 }
 
 const brain = {
-    init, setMood: brainSetMood, setMessage: brainSetMessage, learnMood: brainLearnMood, setIntervals
+    init, setMood: brainSetMood,
+    setMessage: brainSetMessage,
+    learnMood: brainLearnMood,
+    setIntervals,
+    getMood: mood,
+    getMessage: message,
 }
 
 export default brain;

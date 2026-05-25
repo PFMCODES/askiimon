@@ -34,47 +34,56 @@ ASKIIMON is a lightweight JavaScript library that gives your CLI or app a living
 
 * Helpful errors
   Clean, styled error and warning system with quick access to help resources.
+ 
+ * Customize Intervals <img width="35" height="15" src="https://pfmcodes.onrender.com/askiimon/new-badge.gif"> <br>
+      1.0.0:
+      ```javascript
+      import askiimon from "askiimon";
 
-* Customize Intervals <img width="35" height="15" src="https://pfmcodes.onrender.com/askiimon/new-badge.gif"> <br>
+      const mon = askiimon.birth({
+        mood: "idle",
+        message: ""
+      });
 
-  1.0.0:
+      let timeOut = setTimeout(() => {
+        mon.setMood("happy");
+        mon.setMessage("i'm happy");
+        let innerTimeout = setTimeout(() => {
+          clearTimeout(timeOut);
+          clear(innerTimeout);
+        }, 2000);
+      }, 3000);
+      ```
+
+      2.0.0(and onwards):
+      ```javascript
+      import askiimon from "askiimon";
+
+      const mon = askiimon.birth({
+        mood: "idle",
+        message: ""
+      });
+
+      mon.setMood("happy");
+      mon.setMessage("i'm happy");
+
+      ```
+
+      This is because askiimon has added internal intervals, so user code doesn't look like setTimeout and setInterval spaghetti, you modify the timings and if the intervals should be there suing:
+      ```javascript
+
+      mon.setIntervals(true, 1000)
+      // true = enable internal auto-refresh
+      // 1000 = interval in ms
+      ```
+
+* ### Internal state acces <img width="35" height="15" src="https://pfmcodes.onrender.com/askiimon/new-badge.gif"> <br>
+  now with the new ``API Functions``, you can access askiimon's internal states
+
+  Example:
   ```javascript
-  import askiimon from "askiimon";
-
-  const mon = askiimon.init({
-    mood: "idle",
-    message: "",
-  });
-
-  let timeOut = setTimeout(() => {
-    mon.setMood("happy");
-    mon.setMessage("i'm happy");
-    let innerTimeout = setTimeout(() => {
-      clearTimeout(timeOut);
-      clear(innerTimeout);
-    }, 2000);
-  }, 3000);
-  ```
-
-  2.0.0(and onwards):
-  ```javascript
-  import askiimon from "askiimon";
-
-  const mon = askiimon.init({
-    mood: "idle",
-    message: "",
-  });
-
-  mon.setMood("happy");
-  mon.setMessage("i'm happy");
-
-  ```
-
-  This is because askiimon has added internal intervals, so user code doesn't look like setTimeout and setInterval spaghetti, you modify the timings and if the intervals should be there suing:
-  ```javascript
-
-  mon.setIntervals(true, 1000)
-  //             boolean custom interval after setMood and setMessage(number)
+  mon.getMood() // returns current mood
+  mon.getMessage() // returns currently displayed message
   ```
 
 ---
@@ -82,9 +91,13 @@ ASKIIMON is a lightweight JavaScript library that gives your CLI or app a living
 ## Example
 
 ```javascript
-import askiimon from "askiimon";
+// assuming the file of source in is root directory
+import askiimon from "askiimon"; // remember askiimon relies on Native Browser APIS and doesn't support any frameworks
 
-const goblin = askiimon.birth("happy", "hello");
+const goblin = askiimon.birth({
+    mood: "happy",
+    message: "hello"
+  });
 
 goblin.setMood("angry");
 goblin.setMessage("why did you do that?");
@@ -99,6 +112,20 @@ It reacts to user actions, shows emotion, and adds personality to otherwise plai
 
 ---
 
+## API reference
+### birth / create / init
+
+-  Type: ``Function``
+-  Parameters: 
+      - ``Object`` 
+          - Starting Mood 
+              Type: ``string`` 
+          - Starting Message 
+              Type: ``string`` 
+-  returns: ``Askiimon (Object)`` 
+
+---
+
 ## Use Cases
 
 * CLI tools with personality
@@ -110,9 +137,10 @@ It reacts to user actions, shows emotion, and adds personality to otherwise plai
 ---
 
 ## Note
-
 ASKIIMON is meant to be expressive and customizable.
-You control how it behaves and how it communicates.
+You control how it behaves and how it .
+
+Askiimon is NOT an AI or LLM, askiimon is just lightweight reactive ui library whose actions are controlled by you
 
 ---
 
